@@ -5,23 +5,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { Text, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Dashboard from './screens/Dashboard';
+import Dashboard from './screens/DayView';
 import ExerciseScreen from './screens/Exercise';
 import AddExerciseModal from './screens/AddExerciseModal';
 
 const Tab = createMaterialBottomTabNavigator();
 
+/** 
+ * Placeholder
+ */
 const WorkoutScreen: React.FC = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
     <Text>Workouts!</Text>
   </View>
 );
-
-// const ExerciseScreen: React.FC = () => (
-//   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//     <Text>Exercises!</Text>
-//   </View>
-// );
 
 const TabNavigator: React.FC = () => {
   return (

@@ -1,83 +1,43 @@
-import React from 'react';
-import {
-  ScrollView,
-  FlatList,
-  View,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import { getConnection } from 'typeorm';
+import { AddButton } from '../components/AddButton';
 import { Exercise } from '../entities/Exercise';
 import ExerciseCard from '../util/ExerciseCard';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-
-const sampleExercises: Exercise[] = [
-  {
-    id: 1,
-    name: 'Bicep curl',
-    highestWeight: 35,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    id: 2,
-    name: 'Hammer curl',
-    highestWeight: 35,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    id: 3,
-    name: 'Squat',
-    highestWeight: 0,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-  {
-    id: 4,
-    name: 'Bicep curl',
-    highestWeight: 0,
-    createDate: new Date(),
-    updateDate: new Date(),
-  },
-] as Exercise[];
 
 const ExerciseScreen = () => {
   const navigation = useNavigation();
+  const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true);
+
+  async function loadExercises() {
+    setLoading(true);
+    await getConnection();
+
+    setExerciseList(await Exercise.find());
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    loadExercises();
+    setLoading(false);
+  }, []);
 
   return (
     <>
       <FlatList
-        data={sampleExercises}
+        data={exerciseList}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
         keyExtractor={item => String(item.id)}
+        onRefresh={async () => await loadExercises()}
+        refreshing={isLoading}
       />
-      <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={styles.createNewButton} onPress={() => navigation.navigate('AddExerciseModal')}>
-          <FontAwesome5 name="plus" solid color={'white'} size={26} />
-        </TouchableOpacity>
-      </View>
+      <AddButton onPress={() => navigation.navigate('AddExerciseModal')} />
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  buttonWrapper: {
-    position: 'absolute',
-    bottom: 15,
-    right: 15
-  },
-  createNewButton: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 75,
-    height: 75,
-    backgroundColor: '#2979ff',
-    borderRadius: 50,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default ExerciseScreen;
