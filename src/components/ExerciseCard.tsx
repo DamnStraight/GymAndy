@@ -21,13 +21,8 @@ const ExerciseCard: React.FC<Props> = ({ exercise }) => {
 const styles = StyleSheet.create({
   cardView: {
     backgroundColor: 'white',
-    // borderRadius: 4,
     marginBottom: 2.5,
     marginTop: 2.5,
-    // marginLeft: 10,
-    // marginRight: 10,
-    // padding: 10,
-    // elevation: 4
   },
   colorBar: {
     backgroundColor: 'red',

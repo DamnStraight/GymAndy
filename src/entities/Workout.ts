@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ExerciseRoutine } from './ExerciseRoutine';
+import DayOfWeek from './DayOfWeek';
 
 @Entity()
 export class Workout extends BaseEntity {
@@ -20,6 +21,10 @@ export class Workout extends BaseEntity {
   )
   @JoinTable()
   exerciseRoutines: ExerciseRoutine[];
+
+  @ManyToMany(type => DayOfWeek)
+  @JoinTable()
+  days: DayOfWeek[];
 
   @CreateDateColumn()
   createDate: Date;

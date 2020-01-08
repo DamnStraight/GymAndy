@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { getConnection } from 'typeorm';
-import { Exercise } from '../entities/Exercise';
+import { Exercise } from '../../entities/Exercise';
 
 const AddExerciseModal: React.FC = () => {
   const [exerciseName, setExerciseName] = useState<string>('');

@@ -4,7 +4,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { getConnection } from 'typeorm';
 import { AddButton } from '../components/AddButton';
 import { Exercise } from '../entities/Exercise';
-import ExerciseCard from '../util/ExerciseCard';
+import ExerciseCard from '../components/ExerciseCard';
 
 const ExerciseScreen = () => {
   const navigation = useNavigation();

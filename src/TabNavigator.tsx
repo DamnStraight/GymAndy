@@ -7,18 +7,11 @@ import { Text, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Dashboard from './screens/DayView';
 import ExerciseScreen from './screens/Exercise';
-import AddExerciseModal from './screens/AddExerciseModal';
+import AddExerciseModal from './screens/modals/AddExerciseModal';
+import { TabColors } from './util/Palette';
+import Workouts from './screens/Workouts';
 
 const Tab = createMaterialBottomTabNavigator();
-
-/** 
- * Placeholder
- */
-const WorkoutScreen: React.FC = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Workouts!</Text>
-  </View>
-);
 
 const TabNavigator: React.FC = () => {
   return (
@@ -27,7 +20,7 @@ const TabNavigator: React.FC = () => {
         name="Today"
         component={Dashboard}
         options={{
-          tabBarColor: '#6200ea',
+          tabBarColor: TabColors.DayView,
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="calendar-day" solid color={color} size={16} />
           ),
@@ -35,9 +28,9 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Workouts"
-        component={WorkoutScreen}
+        component={Workouts}
         options={{
-          tabBarColor: '#dd2c00',
+          tabBarColor: TabColors.Workouts,
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="heartbeat" solid color={color} size={16} />
           ),
@@ -47,7 +40,7 @@ const TabNavigator: React.FC = () => {
         name="Exercises"
         component={ExerciseScreen}
         options={{
-          tabBarColor: '#2979ff',
+          tabBarColor: TabColors.Exercises,
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="dumbbell" solid color={color} size={16} />
           ),

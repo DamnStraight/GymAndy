@@ -8,8 +8,7 @@ import { Exercise } from './entities/Exercise';
 import { ExerciseRoutine } from './entities/ExerciseRoutine';
 import { Workout } from './entities/Workout';
 import TabNavigator from './TabNavigator';
-
-
+import DayOfWeek from './entities/DayOfWeek';
 
 const App = () => {
   useEffect(() => {
@@ -21,7 +20,7 @@ const App = () => {
         // dropSchema: true,
         logging: ['error', 'query', 'schema'],
         synchronize: true,
-        entities: [Exercise, ExerciseRoutine, Workout],
+        entities: [Exercise, ExerciseRoutine, Workout, DayOfWeek],
       });
     };
 
