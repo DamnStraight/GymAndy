@@ -17,7 +17,7 @@ const App = () => {
         type: 'react-native',
         database: 'test',
         location: 'default',
-        // dropSchema: true,
+        dropSchema: true,
         logging: ['error', 'query', 'schema'],
         synchronize: true,
         entities: [Exercise, ExerciseRoutine, Workout, DayOfWeek],

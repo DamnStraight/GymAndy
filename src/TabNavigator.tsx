@@ -7,9 +7,36 @@ import { Text, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Dashboard from './screens/DayView';
 import ExerciseScreen from './screens/Exercise';
-import AddExerciseModal from './screens/modals/AddExerciseModal';
+import AddExerciseModal from './screens/modals/AddExercise';
 import { TabColors } from './util/Palette';
 import Workouts from './screens/Workouts';
+import { Exercise } from './entities/Exercise';
+
+/**
+ * All Screens used in the navigator stack
+ */
+export enum NavigatorScreens {
+  /**
+   * Used by Root navigator containing modals
+   */
+  MAIN = 'Main',
+  DASHBOARD = 'Dashboard',
+  WORKOUTS = 'Workouts',
+  EXERCISES = 'Exercises',
+}
+
+/**
+ * All modal screens in the navigator
+ */
+export enum NavigatorModals {
+  ADD_EXERCISE = 'AddExerciseModal',
+}
+
+export type TabNavigatorParamList = {
+  Dashboard: undefined;
+  Workouts: undefined;
+  Exercises: undefined;
+};
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -17,7 +44,7 @@ const TabNavigator: React.FC = () => {
   return (
     <Tab.Navigator shifting activeColor="white">
       <Tab.Screen
-        name="Today"
+        name={NavigatorScreens.DASHBOARD}
         component={Dashboard}
         options={{
           tabBarColor: TabColors.DayView,
@@ -27,7 +54,7 @@ const TabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="Workouts"
+        name={NavigatorScreens.WORKOUTS}
         component={Workouts}
         options={{
           tabBarColor: TabColors.Workouts,
@@ -37,7 +64,7 @@ const TabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="Exercises"
+        name={NavigatorScreens.EXERCISES}
         component={ExerciseScreen}
         options={{
           tabBarColor: TabColors.Exercises,
@@ -52,12 +79,19 @@ const TabNavigator: React.FC = () => {
 
 const RootStack = createStackNavigator();
 
+export type RootStackParamList = {
+  Main: TabNavigatorParamList;
+  AddExerciseModal: {
+    onConfirm: (newExercise: Exercise) => void;
+  };
+};
+
 const RootStackScreen: React.FC = () => {
   return (
     <RootStack.Navigator mode="modal" headerMode="none">
-      <RootStack.Screen name="Main" component={TabNavigator} />
+      <RootStack.Screen name={NavigatorScreens.MAIN} component={TabNavigator} />
       <RootStack.Screen
-        name="AddExerciseModal"
+        name={NavigatorModals.ADD_EXERCISE}
         component={AddExerciseModal}
         options={{ cardStyle: { backgroundColor: 'transparent' } }}
       />

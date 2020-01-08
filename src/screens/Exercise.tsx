@@ -1,13 +1,37 @@
-import { useNavigation } from '@react-navigation/native';
+import {
+  useNavigation,
+  CompositeNavigationProp,
+  RouteProp,
+} from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { getConnection } from 'typeorm';
 import { AddButton } from '../components/AddButton';
 import { Exercise } from '../entities/Exercise';
 import ExerciseCard from '../components/ExerciseCard';
+import {
+  RootStackParamList,
+  TabNavigatorParamList,
+  NavigatorScreens,
+  NavigatorModals,
+} from '../TabNavigator';
+import { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const ExerciseScreen = () => {
-  const navigation = useNavigation();
+type ExerciseScreenNavigationProp = CompositeNavigationProp<
+  MaterialBottomTabNavigationProp<
+    TabNavigatorParamList,
+    NavigatorScreens.EXERCISES
+  >,
+  StackNavigationProp<RootStackParamList>
+>;
+
+type Props = {
+  navigation: ExerciseScreenNavigationProp;
+};
+
+const ExerciseScreen: React.FC<Props> = () => {
+  const navigation = useNavigation<ExerciseScreenNavigationProp>();
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -33,7 +57,14 @@ const ExerciseScreen = () => {
         onRefresh={async () => await loadExercises()}
         refreshing={isLoading}
       />
-      <AddButton onPress={() => navigation.navigate('AddExerciseModal')} />
+      <AddButton
+      // TODO Fix types on navigate function
+        onPress={() =>
+          navigation.navigate(NavigatorModals.ADD_EXERCISE, {
+            onConfirm: (newExercise: Exercise) => console.log('Test'),
+          })
+        }
+      />
     </>
   );
 };

@@ -1,26 +1,47 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Button, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { getConnection } from 'typeorm';
 import { Exercise } from '../../entities/Exercise';
+import { RootStackParamList, NavigatorModals } from '../../TabNavigator';
+import { RouteProp } from '@react-navigation/native';
 
-const AddExerciseModal: React.FC = () => {
+type AddExerciseModalProp = StackNavigationProp<
+  RootStackParamList,
+  NavigatorModals.ADD_EXERCISE
+>;
+
+type AddExerciseModalRouteProp = RouteProp<
+  RootStackParamList,
+  NavigatorModals.ADD_EXERCISE
+>;
+
+type Props = {
+  route: AddExerciseModalRouteProp;
+  navigation: AddExerciseModalProp;
+};
+
+const AddExerciseModal: React.FC<Props> = ({ navigation, route }) => {
   const [exerciseName, setExerciseName] = useState<string>('');
   const [maxWeight, setMaxWeight] = useState<string>('');
 
-  const saveNewExercise = async () => {
+  async function onPressHandler() {
     try {
       await getConnection();
 
-      await Exercise.save({
+      const newExercise = await Exercise.save({
         name: exerciseName,
         // FIXME Temporary lazy solution while getting boilerplate up, assumes value entered is numeric
         highestWeight: Number(maxWeight),
       } as Exercise);
+
+      route.params.onConfirm(newExercise);
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
   return (
     <View
@@ -48,7 +69,7 @@ const AddExerciseModal: React.FC = () => {
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           onChangeText={maxWeight => setMaxWeight(maxWeight)}
         />
-        <Button title="Save" onPress={async () => await saveNewExercise()} />
+        <Button title="Save" onPress={async () => await onPressHandler()} />
       </View>
     </View>
   );
