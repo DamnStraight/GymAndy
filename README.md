@@ -17,3 +17,7 @@ Routines:
 Day calendar view:
 - Day calendar view where workout routines that are scheduled for current day will appear
 - If none scheduled you can apply one without leaving current view
+
+###### Diagrams made using [Excalidraw](https://www.excalidraw.com/)
+![Mockup](diagrams/sketches/ExerciseScreen/ExerciseScreen.png)
+![Mockup](diagrams/sketches/DayScreen/DayScreen.png)
