@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 // enum DaysOfWeek {
 //   MONDAY = "MONDAY",
@@ -10,15 +10,19 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 //   SUNDAR = "SUNDAR",
 // }
 
-type DaysOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+// NOTE simple-enum broken in typeorm right now
+export type DaysOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
 
 @Entity()
-export default class DayOfWeek {
+export default class DayOfWeek extends BaseEntity {
+  constructor(dayOfWeek: DaysOfWeek) {
+    super();
+    this.dayOfWeek = dayOfWeek;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: 'text',
-  })
+  @Column('text')
   dayOfWeek: DaysOfWeek;
 }

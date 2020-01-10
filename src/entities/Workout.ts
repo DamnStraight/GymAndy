@@ -6,6 +6,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Column,
 } from 'typeorm';
 import { ExerciseRoutine } from './ExerciseRoutine';
 import DayOfWeek from './DayOfWeek';
@@ -14,6 +15,9 @@ import DayOfWeek from './DayOfWeek';
 export class Workout extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column("text")
+  name: string;
 
   @ManyToMany(
     type => ExerciseRoutine,

@@ -1,15 +1,39 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { AddButton } from '../components/AddButton';
-import { TabColors } from '../util/Palette';
+import TabColors from '../util/Palette';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
+import {
+  TabNavigatorParamList,
+  NavigatorScreens,
+  RootStackParamList,
+  NavigatorModals,
+} from '../TabNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const Workouts: React.FC = () => {
+type WorkoutNavigationProp = CompositeNavigationProp<
+  MaterialBottomTabNavigationProp<
+    TabNavigatorParamList,
+    NavigatorScreens.WORKOUTS
+  >,
+  StackNavigationProp<RootStackParamList>
+>;
+
+type Props = {
+  navigation: WorkoutNavigationProp;
+};
+
+const Workouts: React.FC<Props> = ({ navigation }) => {
   return (
     <>
       <View style={styles.header}>
         <Text style={styles.title}>{`Hey!`}</Text>
       </View>
-      <AddButton onPress={() => {}} buttonStyles={styles.buttonColor} />
+      <AddButton
+        onPress={() => navigation.navigate(NavigatorModals.ADD_WORKOUT)}
+        buttonStyles={styles.buttonColor}
+      />
     </>
   );
 };
@@ -33,8 +57,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   buttonColor: {
-    backgroundColor: TabColors.Workouts
-  }
+    backgroundColor: TabColors.Workouts,
+  },
 });
 
 export default Workouts;

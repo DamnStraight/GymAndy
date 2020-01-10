@@ -8,9 +8,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Dashboard from './screens/DayView';
 import ExerciseScreen from './screens/Exercise';
 import AddExerciseModal from './screens/modals/AddExercise';
-import { TabColors } from './util/Palette';
+import TabColors from './util/Palette';
 import Workouts from './screens/Workouts';
 import { Exercise } from './entities/Exercise';
+import ExerciseSelection from './screens/modals/ExerciseSelection';
+import AddWorkout from './screens/modals/AddWorkout';
 
 /**
  * All Screens used in the navigator stack
@@ -30,6 +32,8 @@ export enum NavigatorScreens {
  */
 export enum NavigatorModals {
   ADD_EXERCISE = 'AddExerciseModal',
+  SELECT_EXERCISE = 'SelectExerciseModal',
+  ADD_WORKOUT = 'AddWorkoutModal',
 }
 
 export type TabNavigatorParamList = {
@@ -84,16 +88,28 @@ export type RootStackParamList = {
   AddExerciseModal: {
     onConfirm: (newExercise: Exercise) => void;
   };
+  SelectExerciseModal: undefined;
+  AddWorkoutModal: undefined;
 };
 
 const RootStackScreen: React.FC = () => {
   return (
     <RootStack.Navigator mode="modal" headerMode="none">
-      <RootStack.Screen name={NavigatorScreens.MAIN} component={TabNavigator} />
+      <RootStack.Screen name={NavigatorScreens.MAIN} component={TabNavigator} options={{ cardStyle: { backgroundColor: 'transparent' } }}/>
       <RootStack.Screen
         name={NavigatorModals.ADD_EXERCISE}
         component={AddExerciseModal}
         options={{ cardStyle: { backgroundColor: 'transparent' } }}
+      />
+      <RootStack.Screen
+        name={NavigatorModals.SELECT_EXERCISE}
+        component={ExerciseSelection}
+        options={{ cardStyle: { backgroundColor: 'white' } }}
+      />
+      <RootStack.Screen
+        name={NavigatorModals.ADD_WORKOUT}
+        component={AddWorkout}
+        options={{ cardStyle: { backgroundColor: 'white' } }}
       />
     </RootStack.Navigator>
   );

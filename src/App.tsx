@@ -9,6 +9,7 @@ import { ExerciseRoutine } from './entities/ExerciseRoutine';
 import { Workout } from './entities/Workout';
 import TabNavigator from './TabNavigator';
 import DayOfWeek from './entities/DayOfWeek';
+import { runFixtures } from './util/fixtures';
 
 const App = () => {
   useEffect(() => {
@@ -17,11 +18,13 @@ const App = () => {
         type: 'react-native',
         database: 'test',
         location: 'default',
-        dropSchema: true,
+        // dropSchema: true,
         logging: ['error', 'query', 'schema'],
         synchronize: true,
         entities: [Exercise, ExerciseRoutine, Workout, DayOfWeek],
       });
+
+      await runFixtures();
     };
 
     connect();
